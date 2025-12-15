@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Cricket game</title>
+    
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>Bat Ball Stump Game</h1>
+    <button class="choice-button"onclick="
+    let choice1=generateComputerChoice();
+     let result1=getResult('Bat',choice1);
+     showResult('Bat',choice1,result1);"><img src="https://www.shutterstock.com/image-vector/illustration-cricket-bat-on-isolated-600nw-2452695663.jpg" alt="Bat Image" class="choice_image"></button>
+     <button  class="choice-button" onclick="
+     let choice2=generateComputerChoice();
+     let result2=getResult('Ball',choice2);
+     showResult('Ball',choice2,result2);"><img src="https://4.imimg.com/data4/SW/AA/MY-33406727/tennis-ball.jpg" alt="Ball Image" class="choice_image"></button>
+      <button  class="choice-button"  onclick=" 
+     let choice3= generateComputerChoice();
+    let result3=getResult('Stump',choice3)
+    showResult('Stump',choice3,result3);"><img src="https://5.imimg.com/data5/SELLER/Default/2022/1/ZA/UA/GO/44319669/1-500x500.jpg" alt="Stump Image" class="choice_image"></button>
+
+   <h3 id="user"></h3>
+   <h3 id="computer"></h3>
+   <h3 id="result"></h3>
+   <h3 id="score"></h3>
+   <button  class="choice" onclick="localStorage.clear();
+   resetScore();">RESET</button>
+<script>
+
+    let scoreStr=localStorage.getItem('score');
+    
+    let score;
+    resetScore(scoreStr);
+    
+    function resetScore(scoreStr){
+    
+     score=scoreStr? JSON.parse(scoreStr):{
+        win:0,
+        lost:0,
+        tie:0,
+
+    };
+
+    /*if(scoreStr!== undefined){
+        score=JSON.parse(scoreStr);//because now we need score and not the string
+    }else{
+    score={
+        win:0,
+        lost:0,
+        tie:0,
+    
+        
+    };
+}*/
+    score.displayScore=function(){
+        return ` won:${score.win},lost:${score.lost},tie:${score.tie}`;
+    };
+    showResult();
+}
+
+
+
+
+
+
+
+    alert('cricket game');
+    let computerchoice;
+    function generateComputerChoice(){
+        
+    //This wil generate a random number between 1 and 3 
+    let randomnumber=Math.random()*3;
+    
+    if(randomnumber>0&&randomnumber<=1){
+         computerchoice='Bat';
+    //console.log('computer choice is bat');
+    }else if(randomnumber>1&&randomnumber<=2){
+         computerchoice='Ball';
+        //console.log('computer choice is ball');
+    }
+    else if(randomnumber>2&&randomnumber<=3) {
+         computerchoice='Stump';
+        //console.log('computer choice is stump');
+    }
+    return computerchoice;
+    }
+
+    function getResult(userMove,computerMove){
+        if(userMove==='bat'){
+             if(computerMove==='Ball'){
+                score.win++;
+       return 'user won';
+
+    }else if(computerMove==='Bat'){
+        score.tie++;
+        return`it's a tie`;
+
+    }
+    else if(computerMove==='Stump'){
+        score.lost++;
+        return'computer won';
+
+    }
+
+}
+    
+    else if(userMove==='ball'){
+          if(computerMove==='Ball'){
+       return `it's a tie`;
+       score.tie++;
+
+    }else if(computerMove==='Bat'){
+        score.lost++;
+
+        return 'Computer  won';
+
+    }
+    else if(computerMove==='Stump'){
+        score.win++;
+        return 'User won';
+
+    }
+        
+    }
+    else{
+        if(computerMove==='Ball'){
+            score.lost++;
+      return 'computer won';
+
+    }else if(computerMove==='Bat'){
+        score.win++;
+        return 'user won';
+
+    }
+    else if(computerMove==='Stump'){
+        score.tie++;
+       return `it's a tie`;
+
+    }
+
+
+       
+    }
+}
+    function showResult(userMove,computerMove,result){
+        //console.log(score);
+       
+        document.querySelector('#user').innerText= userMove? `You have choosen  ${userMove}` : '' ;
+         document.querySelector('#computer').innerText=computerMove?`computer have choosen  ${computerMove}`:'';
+          document.querySelector('#result').innerText=result||'';
+           document.querySelector('#score').innerText=score?`Your score is  ${score.displayScore()}`:'';
+       /* alert(`You have choosen ${userMove}.Computer choice is  ${computerMove} 
+         ${result}
+        ${score.displayScore()}`);*/
+    }
+    
+</script>
+</body>
+</html>
